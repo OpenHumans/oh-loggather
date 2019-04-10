@@ -13,6 +13,7 @@ django-heroku = "*"
 django-crispy-forms = "*"
 requests = "*"
 django-open-humans = "*"
+redis = "*"
 
 [requires]
 python_version = "3.6"

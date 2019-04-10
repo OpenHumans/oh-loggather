@@ -120,7 +120,7 @@ OPENHUMANS_OH_BASE_URL = os.getenv(
     "OPENHUMANS_OH_BASE_URL", "https://www.openhumans.org"
 )
 
-CELERY_BROKER_URL = os.getenv("REDIS_URL")
+CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://")
 CELERY_TASK_SERIALIZER = "json"
 
 LOGIN_URL = "/"
