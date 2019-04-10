@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+<link rel="stylesheet" href="https://static.openhumans.org/vendor/css/datepicker.min.css"/>
+<script src="https://static.openhumans.org/vendor/js/datepicker.min.js"></script>
+
+<div class="row">
+    <div class="col-md-9 col-lg-10">
+        <h1 class="mb-3">Dashboard: Loggather</h1>
+        <p>
+          Congrats! You've connected Loggather.  Your access log data
+          will be stored in files within your Open Humans account.
+          Files are listed below, and can also be seen in
+          on <a href="https://www.openhumans.org/activity/loggather/">this
+          project's activity page</a> in the Open Humans website.
+        </p>
+        <p>
+          You will notice that there are two sets of files.  One set
+          is for access events through the Open Humans web interface;
+          the second set of files contain access events touching the
+          files where they reside on Amazon's servers in s3 storage.
+          These files are in a csv format, with the first line being
+          headers.
+        </p>
+    </div>
+    <div class="col d-none d-md-block" style="text-align: center;">
+        <img class="oh-cnxn-icon" src="{% static 'img/log.jpg' %}">
+    </div>
+</div>
+<hr>
+
+<h2>Retrieve logs</h2>
+
+<div class="row">
+    <div class="col-md-9 col-lg-10">
+      <p>
+        Use this form to specify a range of dates for which logs you
+        would like to retrieve.
+      </p>
+      <p>
+        Logs are available from {{ oldest_date }} to {{ newest_date }} as per Open
+        Humans' policy of retaining logs for {{ log_retention_days }} days.
+      </p>
+      <p>
+        Note that it can take a few minutes to retrieve the logs.
+      </p>
+
+<form role="form" method="POST"
+    action="{% url 'dashboard' %}" id="retrieve-logs-form">
+    {% csrf_token %}
+
+    <div class="form-group">
+      {{ form|crispy }}
+      <script>
+        $(".datepick").datepicker({format:'yyyy-mm-dd',
+                                   language: 'en-US',
+                                   endDate: '{{ oldest_date }}'
+                                 });
+      </script>
+    </div>
+
+    <div class="form-group">
+      <input id="retrieve-logs" type="submit" value="Retrieve logs"
+             form="retrieve-logs-form" class="btn btn-primary col-md-offset-4">
+    </div>
+</form>
+
+
+<h2>Your data</h2>
+
+{% if data_files %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data_file in data_files %}
+        <tr>
+            <td>
+                {{ data_file.basename }}
+            </td>
+            <td>
+                <a class="btn btn-primary btn-sm" href="{{ data_file.download_url }}" download>Download</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>
+    No files are yet available. Retrieving and processing your data can take up
+    to 12 hours per year of Fitbit data.
+</p>
+{% endif %}
+
+{% endblock main %}
