@@ -13,7 +13,7 @@ from openhumans.models import OpenHumansMember
 logger = get_task_logger(__name__)
 
 
-def serialize_accesslogs(api_endpoint, oh_member, access_token, start_date, end_date):
+def serialize_accesslogs(api_endpoint, oh_member, start_date, end_date):
     """
     Groups logs by project, then converts from dict to csv, and finally uploads the
     resultant csv files to aws.
@@ -132,14 +132,13 @@ def serialize_accesslogs(api_endpoint, oh_member, access_token, start_date, end_
         csv = "{0}\n{1}".format(",".join(headers), csv)  # Prepend the headers
         f = io.StringIO(csv)
         logger.info("Writing {0}".format(filename))
-        upload_stream(
+        oh_member.upload(
             f,
             filename,
             metadata={
                 "description": "Open Humans access logs:  AWS side",
                 "tags": ["logs", "access logs", "AWS access logs"],
             },
-            access_token=access_token,
         )
 
 
@@ -149,12 +148,11 @@ def get_logs(oh_member_pk, start_date=None, end_date=None):
     Celery task to retrieve the specified set of logs and save them as files
     """
     oh_member = OpenHumansMember.objects.get(pk=oh_member_pk)
-    access_token = oh_member.get_access_token()
     serialize_accesslogs(
-        "newdatafileaccesslog", oh_member, access_token, start_date, end_date
+        "newdatafileaccesslog", oh_member, start_date, end_date
     )
     serialize_accesslogs(
-        "awsdatafileaccesslog", oh_member, access_token, start_date, end_date
+        "awsdatafileaccesslog", oh_member, start_date, end_date
     )
 
     return

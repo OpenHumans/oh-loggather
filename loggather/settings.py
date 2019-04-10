@@ -4,13 +4,8 @@ Django settings for oh-gather project.
 
 import os
 
-from env_tools import apply_env
-
 import django_heroku
 
-
-# Apply the env in the .env file
-apply_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +17,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "mysupersecretmoosekeyishere")
 DEBUG = True if os.getenv("DEBUG", "true").lower() == "true" else False
 
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 
 ROOT_URLCONF = "loggather.urls"
 
@@ -124,7 +119,6 @@ OPENHUMANS_APP_BASE_URL = os.getenv("OPENHUMANS_APP_BASE_URL", "http://127.0.0.1
 OPENHUMANS_OH_BASE_URL = os.getenv(
     "OPENHUMANS_OH_BASE_URL", "https://www.openhumans.org"
 )
-OHAPI_OH_BASE_URL = OPENHUMANS_OH_BASE_URL
 
 CELERY_BROKER_URL = os.getenv("REDIS_URL")
 CELERY_TASK_SERIALIZER = "json"
