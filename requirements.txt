@@ -4,34 +4,81 @@
 #
 #    pip-compile requirements.in
 #
-amqp==2.4.2               # via kombu
+amqp==2.4.2
+    # via kombu
 arrow==0.13.1
-billiard==3.6.0.0         # via celery
+    # via
+    #   -r requirements.in
+    #   open-humans-api
+billiard==3.6.0.0
+    # via celery
 celery==4.3.0
-certifi==2019.3.9         # via requests
-chardet==3.0.4            # via requests
-click==7.0                # via open-humans-api
-configparser==3.7.4       # via tini
+    # via -r requirements.in
+certifi==2019.3.9
+    # via requests
+chardet==3.0.4
+    # via requests
+click==7.0
+    # via open-humans-api
+configparser==3.7.4
+    # via tini
+dj-database-url==0.5.0
+    # via django-heroku
 django-crispy-forms==1.7.2
+    # via -r requirements.in
 django-heroku==0.3.1
+    # via -r requirements.in
 django-open-humans==0.1.3
-django==2.2
+    # via -r requirements.in
+django==2.2.22
+    # via
+    #   -r requirements.in
+    #   django-heroku
+    #   django-open-humans
 env-tools==2.2.0
+    # via -r requirements.in
 gunicorn==19.9.0
-humanfriendly==4.18       # via open-humans-api
-idna==2.8                 # via requests
-kombu==4.5.0              # via celery
+    # via -r requirements.in
+humanfriendly==4.18
+    # via open-humans-api
+idna==2.8
+    # via requests
+kombu==4.5.0
+    # via celery
 markdown==3.1
+    # via -r requirements.in
 oauthlib==3.0.1
-open-humans-api==0.2.5    # via django-open-humans
-psycopg2==2.7.7           # via django-heroku
-python-dateutil==2.8.0    # via arrow
-pytz==2019.1              # via celery, django
+    # via -r requirements.in
+open-humans-api==0.2.5
+    # via django-open-humans
+psycopg2==2.7.7
+    # via django-heroku
+python-dateutil==2.8.0
+    # via arrow
+pytz==2019.1
+    # via
+    #   celery
+    #   django
 redis==3.2.1
+    # via -r requirements.in
 requests==2.21.0
-six==1.12.0               # via env-tools, python-dateutil, tini
-sqlparse==0.3.0           # via django
-tini==3.0.1               # via env-tools
-urllib3==1.24.1           # via requests
-vine==1.3.0               # via amqp, celery
-whitenoise==4.1.2         # via django-heroku
+    # via
+    #   -r requirements.in
+    #   open-humans-api
+six==1.12.0
+    # via
+    #   env-tools
+    #   python-dateutil
+    #   tini
+sqlparse==0.3.0
+    # via django
+tini==3.0.1
+    # via env-tools
+urllib3==1.24.1
+    # via requests
+vine==1.3.0
+    # via
+    #   amqp
+    #   celery
+whitenoise==4.1.2
+    # via django-heroku
